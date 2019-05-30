@@ -3,6 +3,7 @@
  -L src_(Demo)/ -e src_(Demo)/MainEntry.cw -o obj/cw/ -#Obj=>{aCwObj} |
  >
 -c {aCwObj} -o obj/cpp_{_sPlatform}_{_sOpt}/cwObj/ -I obj/cw/ -std=c++11
+-I litehtml/
  >
 -#Build {_wLib_GZE} -#To obj/cpp_{_sPlatform}_{_sOpt}/GZE/LibGZE/ -I obj/cw/
 >

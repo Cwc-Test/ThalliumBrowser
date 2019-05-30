@@ -93,8 +93,8 @@ package  {
 		Debug.fTrace("---WinStart");
 		
 		Debug.fTrace("---DemoRoll");
-		oDemo = new DemoRoll(this);
-	//	oDemo = new DemoText(this);
+		//oDemo = new DemoRoll(this);
+		oDemo = new DemoText(this);
 					
 		//		Debug.fTrace1("---FpsCount");
 		//	oFps = new FpsCount(this, oItf.nFrameWidth - 150, 30);
