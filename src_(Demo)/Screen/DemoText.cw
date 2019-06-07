@@ -188,18 +188,21 @@ package  {
 			if(_oRcHtml.sText == ""){
 				_oRcHtml.sText = "<h1>Something Wrong</h1>";
 			}
-				_oRcHtml.sText = "<h1>Something Wrong</h1>";
-			//oBrowserContainer = new BrowserContainer();
+			
+			_oRcHtml.sText = "<h1>Something Wrong</h1>";
+			oBrowserContainer = new BrowserContainer();
 			
 			<cpp>
 			
 			
-			oBrowserContainer = Lib_Demo::Browser::BrowserContainer::New(this);
+			//oBrowserContainer = Lib_Demo::Browser::BrowserContainer::New(this);
 			
-			oBrowserContainer->del_clip();
+			//oBrowserContainer->del_clip();
 			litehtml::document::ptr		m_doc;
 			m_doc = litehtml::document::createFromUTF8((const char*) _oRcHtml->sText.fToCStr().get(), oBrowserContainer.get(), &oBrowserContext);
 			m_doc->render(800);
+			litehtml::position clip = litehtml::position(0, 0, 800, 600);
+			m_doc->draw(0, 0, 0, &clip);
 			</cpp>
 			
 			//	litehtml::document::ptr		m_doc;

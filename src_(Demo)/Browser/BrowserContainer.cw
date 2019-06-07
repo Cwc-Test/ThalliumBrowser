@@ -38,6 +38,9 @@ package  {
 																	 
 		virtual void				get_media_features(litehtml::media_features& media) const;
 		virtual void				get_language(litehtml::tstring& language, litehtml::tstring & culture) const;
+		
+		
+		virtual int					line_height(litehtml::uint_ptr hdc, litehtml::uint_ptr hFont);
 	</cpp_class_h>
 			
 				
@@ -49,7 +52,7 @@ package  {
 		
 	<cpp_class>
 		litehtml::uint_ptr	cBrowserContainer::create_font(const litehtml::tchar_t* faceName, int size, int weight, litehtml::font_style italic, unsigned int decoration, litehtml::font_metrics* fm){
-			printf("\n**Lite_HTML_Func: create_font");
+			printf("\n**Lite_HTML_Func: create_font %s , %d",faceName, size );
 			return 0;
 		}
 
@@ -58,26 +61,40 @@ package  {
 		}
 
 		int		cBrowserContainer::text_width(const litehtml::tchar_t* text, litehtml::uint_ptr hFont){
-			printf("\n**Lite_HTML_Func: text_width");
-			return 0;
+			
+			int _nCount = 0;
+			while (text[_nCount] != 0x00){
+			  _nCount++;
+			}
+			printf("\n**Lite_HTML_Func: text_width: %s, %d", text, _nCount *8);
+			return _nCount * 8; //8 width char
 		}
 
 		void	cBrowserContainer::draw_text(litehtml::uint_ptr hdc, const litehtml::tchar_t* text, litehtml::uint_ptr hFont, litehtml::web_color color, const litehtml::position& pos){
-			printf("\n**Lite_HTML_Func: draw_text");
+			printf("\n**Lite_HTML_Func: draw_text x%d, y%d, width%d, height%d, %s ",pos.x,pos.y,pos.width, pos.height, text);
+		//	printf("\n*--- draw_text: left%d, top%d, right%d, bottom%d, %s ",pos.left(),pos.top(),pos.right(), pos.bottom() , text);
+			
+			// pos.left(), pos.top(), pos.right(), pos.bottom() 
 		}
 
 		int		cBrowserContainer::pt_to_px(int pt){
 			printf("\n**Lite_HTML_Func: pt_to_px");
-			return 0;
+			
+			//GdkScreen* screen = gdk_screen_get_default();
+			//double dpi = gdk_screen_get_resolution(screen);
+			//return (int) ((double) pt * dpi / 72.0);
+			double dpi = 96.0; //Is standard?
+			return (int) ((double) pt * dpi / 72.0);
 		}
 
 		int		cBrowserContainer::get_default_font_size() const{
 			printf("\n**Lite_HTML_Func: get_default_font_size");
-			return 0;
+			return 16;
 		}
 
 		const litehtml::tchar_t*	cBrowserContainer::get_default_font_name() const{
 			printf("\n**Lite_HTML_Func: get_default_font_name");
+			return "Arial";
 		}
 
 		void	cBrowserContainer::draw_list_marker(litehtml::uint_ptr hdc, const litehtml::list_marker& marker){
@@ -97,7 +114,30 @@ package  {
 		}
 
 		void	cBrowserContainer::draw_borders(litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root){
-			printf("\n**Lite_HTML_Func: draw_borders");
+			
+			int bdr_top		= 0;
+			int bdr_bottom	= 0;
+			int bdr_left	= 0;
+			int bdr_right	= 0;
+
+			if(borders.top.width != 0 && borders.top.style > litehtml::border_style_hidden)
+			{
+				bdr_top = (int) borders.top.width;
+			}
+			if(borders.bottom.width != 0 && borders.bottom.style > litehtml::border_style_hidden)
+			{
+				bdr_bottom = (int) borders.bottom.width;
+			}
+			if(borders.left.width != 0 && borders.left.style > litehtml::border_style_hidden)
+			{
+				bdr_left = (int) borders.left.width;
+			}
+			if(borders.right.width != 0 && borders.right.style > litehtml::border_style_hidden)
+			{
+				bdr_right = (int) borders.right.width;
+			}
+			printf("\n**Lite_HTML_Func: draw_borders, %d, %d, %d, %d", bdr_top,bdr_bottom,bdr_left,bdr_right);
+			
 		}
 
 
@@ -139,6 +179,8 @@ package  {
 
 		void	cBrowserContainer::get_client_rect(litehtml::position& client) const{
 			printf("\n**Lite_HTML_Func: get_client_rect");
+			//get_client_rect
+			client = litehtml::position(0, 0, 800, 600);
 		}
 
 		std::shared_ptr<litehtml::element>	cBrowserContainer::create_element(const litehtml::tchar_t *tag_name,
@@ -155,6 +197,16 @@ package  {
 
 		void	cBrowserContainer::get_language(litehtml::tstring& language, litehtml::tstring & culture) const{
 			printf("\n**Lite_HTML_Func: get_language");
+		}
+
+		int cBrowserContainer::line_height( litehtml::uint_ptr hdc, litehtml::uint_ptr hFont ){
+			printf("\n**Lite_HTML_Func: line_height");
+			//HFONT oldFont = (HFONT) SelectObject((HDC) hdc, (HFONT) hFont);
+			//TEXTMETRIC tm;
+			//GetTextMetrics((HDC) hdc, &tm);
+			//SelectObject((HDC) hdc, oldFont);
+			//return (int) tm.tmHeight;
+			return (int) 15;
 		}
 
 	</cpp_class>
