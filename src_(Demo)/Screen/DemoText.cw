@@ -34,6 +34,13 @@ package  {
 	 */
 	public class DemoText extends Clip {
 
+		<cpp_class_h_>
+			litehtml::document::ptr		m_doc; //Doc must be after BrowserContainer, (it's must be destroyed after)
+			litehtml::context	oBrowserContext;
+			//gzUp<Lib_Demo::Browser::cBrowserContainer> oBrowserContainer;
+		</cpp_class_h_>
+		
+	
 		public var oBrowserContainer : BrowserContainer;
 		
 		public var oImg : Img;
@@ -43,10 +50,7 @@ package  {
 		
 		public var oRcMasterCss : RcText;
 		
-		<cpp_class>
-			litehtml::context	oBrowserContext;
-		</cpp_class>
-		
+	
 		
 		
 		public function DemoText( _oParent : Root ):Void {
@@ -198,7 +202,7 @@ package  {
 			//oBrowserContainer = Lib_Demo::Browser::BrowserContainer::New(this);
 			
 			//oBrowserContainer->del_clip();
-			litehtml::document::ptr		m_doc;
+			
 			m_doc = litehtml::document::createFromUTF8((const char*) _oRcHtml->sText.fToCStr().get(), oBrowserContainer.get(), &oBrowserContext);
 			m_doc->render(800);
 			litehtml::position clip = litehtml::position(0, 0, 800, 600);
