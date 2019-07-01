@@ -1,5 +1,8 @@
 package  {
 
+
+	import Demo.Browser.BrowserClip;
+
 	<cpp_h>
 		#include <iostream>
 		#include "litehtml/os_types.h"
@@ -8,7 +11,11 @@ package  {
 		#include "litehtml/html.h" //document_container
 	</cpp_h>
 	
+	
+
 	<cpp_class_h>
+		//Lib_Demo::Browser::cBrowserClip* oClip;
+	
 		virtual litehtml::uint_ptr	create_font(const litehtml::tchar_t* faceName, int size, int weight, litehtml::font_style italic, unsigned int decoration, litehtml::font_metrics* fm);
 		virtual void				delete_font(litehtml::uint_ptr hFont);
 		virtual int					text_width(const litehtml::tchar_t* text, litehtml::uint_ptr hFont);
@@ -46,8 +53,10 @@ package  {
 				
 	public struct BrowserContainer extends "public litehtml::document_container" {
 
-		public function BrowserContainer( ):Void {
-			
+		public wvar oClip : BrowserClip;
+	
+		public function BrowserContainer(_oClip : BrowserClip ):Void {
+			oClip = _oClip;
 		}	
 		
 	<cpp_class>
@@ -73,7 +82,7 @@ package  {
 		void	cBrowserContainer::draw_text(litehtml::uint_ptr hdc, const litehtml::tchar_t* text, litehtml::uint_ptr hFont, litehtml::web_color color, const litehtml::position& pos){
 			printf("\n**Lite_HTML_Func: draw_text x%d, y%d, width%d, height%d, %s ",pos.x,pos.y,pos.width, pos.height, text);
 		//	printf("\n*--- draw_text: left%d, top%d, right%d, bottom%d, %s ",pos.left(),pos.top(),pos.right(), pos.bottom() , text);
-			
+			oClip->fDraw_text(gzStrC((char*)text), pos.x,pos.y,pos.width, pos.height);
 			// pos.left(), pos.top(), pos.right(), pos.bottom() 
 		}
 
