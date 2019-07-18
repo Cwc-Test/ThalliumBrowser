@@ -62,7 +62,7 @@ package  {
 	<cpp_class>
 		litehtml::uint_ptr	cBrowserContainer::create_font(const litehtml::tchar_t* faceName, int size, int weight, litehtml::font_style italic, unsigned int decoration, litehtml::font_metrics* fm){
 			printf("\n**Lite_HTML_Func: create_font %s , %d",faceName, size );
-			return 0;
+			return 	oClip->fNewFont(gzStrC((char*)faceName), size);
 		}
 
 		void	cBrowserContainer::delete_font(litehtml::uint_ptr hFont){
@@ -70,19 +70,24 @@ package  {
 		}
 
 		int		cBrowserContainer::text_width(const litehtml::tchar_t* text, litehtml::uint_ptr hFont){
-			
+			/*
 			int _nCount = 0;
 			while (text[_nCount] != 0x00){
 			  _nCount++;
-			}
-			printf("\n**Lite_HTML_Func: text_width: %s, %d", text, _nCount *8);
-			return _nCount * 8; //8 width char
+			}*/
+		//	printf("\n**Lite_HTML_Func: text_width: %s, %d", text, _nCount *8);
+		//	printf("\n**Lite_HTML_Func: text_width: %s, %d", text);
+				
+			return oClip->fGetTextWidth((Lib_GZ::File::cRcFont*)hFont, gzStrC((char*)text));
+			
+	
+			//return _nCount * 8; //8 width char
 		}
 
 		void	cBrowserContainer::draw_text(litehtml::uint_ptr hdc, const litehtml::tchar_t* text, litehtml::uint_ptr hFont, litehtml::web_color color, const litehtml::position& pos){
-			printf("\n**Lite_HTML_Func: draw_text x%d, y%d, width%d, height%d, %s ",pos.x,pos.y,pos.width, pos.height, text);
-		//	printf("\n*--- draw_text: left%d, top%d, right%d, bottom%d, %s ",pos.left(),pos.top(),pos.right(), pos.bottom() , text);
-			oClip->fDraw_text(gzStrC((char*)text), pos.x,pos.y,pos.width, pos.height);
+		//	printf("\n**Lite_HTML_Func: draw_text x%d, y%d, width%d, height%d, %s ",pos.x,pos.y,pos.width, pos.height, text);
+
+			oClip->fDraw_text((Lib_GZ::File::cRcFont*)hFont, gzStrC((char*)text), pos.x,pos.y,pos.width, pos.height);
 			// pos.left(), pos.top(), pos.right(), pos.bottom() 
 		}
 
@@ -175,7 +180,11 @@ package  {
 		}
 
 		void	cBrowserContainer::import_css(litehtml::tstring& text, const litehtml::tstring& url, litehtml::tstring& baseurl){
-			printf("\n**Lite_HTML_Func: import_css");
+			printf("\n**Lite_HTML_Func: import_css: %s : %s : %s",  text.c_str(), url.c_str(), baseurl.c_str());
+			
+			text =  std::string(reinterpret_cast<const char*>(     oClip->fGetCssFile( gzStrC((char*)url.c_str()) ).fToUTF8().fFinalize().get()    )); //TODO Optimize
+			
+			
 		}
 
 		void	cBrowserContainer::set_clip(const litehtml::position& pos, const litehtml::border_radiuses& bdr_radius, bool valid_x, bool valid_y){
@@ -187,7 +196,7 @@ package  {
 		}
 
 		void	cBrowserContainer::get_client_rect(litehtml::position& client) const{
-			printf("\n**Lite_HTML_Func: get_client_rect");
+		//	printf("\n**Lite_HTML_Func: get_client_rect");
 			//get_client_rect
 			client = litehtml::position(0, 0, 800, 600);
 		}

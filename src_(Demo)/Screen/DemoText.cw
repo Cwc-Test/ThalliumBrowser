@@ -50,8 +50,14 @@ package  {
 
 		
 		override public function fUpdateParentToChild():Void {
-				
+		/*
+			var _nMouseX : Float = oItf.oWindow.nMouseX - oItf.nHalfFrameWidth;
+			var _nMouseY : Float = oItf.oWindow.nMouseY - oItf.nHalfFrameHeight;
 
+			//!Updated each frame, parents before
+			TnYaw(_nMouseX / oItf.nHalfFrameWidth / -1.15);
+			TnPitch(_nMouseY / oItf.nHalfFrameHeight / -1.15);
+*/
 		}
 
 

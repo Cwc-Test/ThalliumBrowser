@@ -1,0 +1,63 @@
+/* Navbar */
+#header, #header.scrolled {
+  background-color: rgba(255, 255, 255, 1) !important;
+}
+
+
+/* Footer */
+#footer .totop {
+  bottom: 6rem;
+}
+#footer {
+  height: 7rem;
+  padding-bottom: 18px;
+}
+
+
+/* Divers */
+.text-center {
+  text-align: center;
+}
+.text-white {
+  color: #fff;
+}
+
+
+/* Boutons */
+.btn {
+  background: #fff;
+  border-radius: 3px;
+}
+/* bleu */
+.btn-blue {
+  padding: 10px;
+  color: #1BB3E9;
+  border: 1px solid #1BB3E9;
+}
+.btn-blue:hover {
+  background: #1BB3E9;
+  color: #fff;
+  border: 1px solid #1BB3E9;
+}
+/* rouge */
+.btn-red {
+  padding: 10px;
+  color: #e60000;
+  border: 1px solid #e60000;
+}
+.btn-red:hover {
+  background: #e60000;
+  color: #fff;
+  border: 1px solid #e60000;
+}
+/* vert */
+.btn-green {
+  padding: 10px;
+  color: #47d147;
+  border: 1px solid #47d147;
+}
+.btn-green:hover {
+  background: #47d147;
+  color: #fff;
+  border: 1px solid #47d147;
+}
