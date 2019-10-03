@@ -253,25 +253,33 @@ package  {
 		public function fNewFont(_sName:String, _nSize: Int):RcFont {
 			Debug.fTrace("New Font: " + _sName);
 			//New Font: "Montserrat", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif
+			
+			var _sFoundFont : String = "Proggy";
+			
 			var _aFont : Array<String> = _sName.fSplit(", ");
 			for(var i : Int = 0; i < _aFont.nSize; i++){
 				var _sFont : String = _aFont[i];
+				_sFont = _sFont.fReplaceAll("\x22", "") ;
 				
+				if (File.fIsFileExist("Exe|Rc/Fonts/" + _sFont + "/")){
+					Debug.fTrace("FileExist!! " + _sFont );
+					_sFoundFont = _sFont;
+					<cpp>
+					break;
+					</cpp>
+				}else{
+					Debug.fTrace("Not Exist!! " + _sFont );
+					
+				}
 				
 			}
 			
+			
+		
 			
 			var _oFont : RcFont = new RcFont( "Exe|Rc/Fonts/Proggy/ProggyTiny.ttf", _nSize);
 			 
-			if (File.fIsFileExist("Exe|Rc/Fonts/Proggy/")){
-				Debug.fTrace("FileExist!! ");
-				
-			}else{
-				Debug.fTrace("Not Exist!! ");
-			}
-			
-			
-			
+		
 			
 			Debug.fTrace("fNewRcFont "  + _oFont.oFile.sName );
 	
