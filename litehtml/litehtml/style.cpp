@@ -6,10 +6,7 @@
 #include <locale>
 #endif
 
-litehtml::string_map litehtml::style::m_valid_values =
-{
-	{ _t("white-space"), white_space_strings }
-};
+
 
 litehtml::style::style()
 {
@@ -615,6 +612,8 @@ void litehtml::style::parse_short_font( const tstring& val, bool important )
 
 void litehtml::style::add_parsed_property( const tstring& name, const tstring& val, bool important )
 {
+	litehtml::string_map m_valid_values = { { _t("white-space"), white_space_strings }}; //TODO not optimal --> Const?
+		
 	bool is_valid = true;
 	string_map::iterator vals = m_valid_values.find(name);
 	if (vals != m_valid_values.end())

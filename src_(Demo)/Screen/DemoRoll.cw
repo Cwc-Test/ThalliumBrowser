@@ -24,9 +24,7 @@ package  {
 		public  var nTime : Int = 0;
 		
 		public static var nFloat : Float;
-		public static var sTest : String = "Hello";
 
-		
 		public var oImg : Img;
 		
 		public function DemoRoll( _oParent : Root ):Void {
