@@ -16,9 +16,11 @@ package  {
 	import GZ.Base.Math.Math;
 
 	import GZ.Gfx.Clip.Img;
-	import GZ.Base.Quaternion;
+	import GZ.Base.Pod.Size;
+
 	
 	import Demo.Browser.BrowserContainer;
+	import Demo.Browser.BrowserFile;
 	
 	import GZ.File.File;
 	
@@ -46,6 +48,9 @@ package  {
 	
 		public var oBrowserContainer : BrowserContainer;
 		
+		public var aImg : Array<BrowserFile>;
+		
+		
 		public var oImg : Img;
 		public var oLetter : Letter;
 		public var oText : Text;
@@ -56,6 +61,7 @@ package  {
 		public var aFontList : Array<RcFont>;
 		
 		public var sWebsitesFolder : String = "Exe|Rc/Websites/";
+		public var sSiteWeb : String =  "Kernel Cpcdos OSx   Page d'accueil   Cpcdos.htm";
 
 		
 		public function BrowserClip( _oParent : Root ):Void {
@@ -188,7 +194,7 @@ package  {
 		
 		 public function fOnDocumentLoaded(_sFilePath:String, _sRealUrl:String ):Void {
 			
-			var _oRcHtml : RcText = new RcText(sWebsitesFolder + "Kernel Cpcdos OSx   Page d'accueil   Cpcdos.htm");
+			var _oRcHtml : RcText = new RcText(sWebsitesFolder + sSiteWeb);
 			//var _oRcHtml : RcText = new RcText(sWebsitesFolder + "Cpcdos.htm");
 			_oRcHtml.fCpuLoad();
 			
@@ -249,6 +255,8 @@ package  {
 			//oText.oCurrRange.fClear();
 			//oText.oCurrRange.fAdd("Yeah");
 		}
+	
+		
 		
 		public function fNewFont(_sName:String, _nSize: Int):RcFont {
 			Debug.fTrace("New Font: " + _sName);
@@ -316,8 +324,50 @@ package  {
 			
 		}
 
+	
+		public function fPreLoadImg(_sPath:String):Void {
+			
+			//TODO check if already exist ?
+		//	var _oBrowserFile : BrowserFile  = new BrowserFile(_sPath);
+			//aImg.fPush(new BrowserFile(_sPath));
+						
+			var _oImg: Img = new Img(this, 0, 0,sWebsitesFolder + _sPath.fReplaceAll("%20"," " ) , false); // + sSiteWeb
+			//_oImg.fCpuLoad();
+			aImg.fPush(new BrowserFile(_sPath, _oImg));
 
+		}
+		
+		public function fGetImgSize(_sPath:String, _sSize : Size<Int>):Void {
+		
+			var _oBrowserFile : BrowserFile = BrowserFile.fFindFile(aImg, _sPath);
 
+			_sSize.nWidth  = _oBrowserFile.oImg.nWidth;
+			_sSize.nHeight = _oBrowserFile.oImg.nHeight;
+
+		}
+
+		public function fDrawImg(_sPath:String, _nX : Int, _nY: Int,_nWidth : Int, _nHeight: Int ):Void {
+			var _oBrowserFile : BrowserFile = BrowserFile.fFindFile(aImg, _sPath);
+			<cpp>
+			if(_oBrowserFile == 0){return;}
+			</cpp>
+			
+			var _oImg : Img = _oBrowserFile.oImg;
+			
+			_oImg.vPos.nX = _nX;
+			_oImg.vPos.nY = _nY;
+			_oImg.vSize.nWidth = _nWidth/_oImg.nWidth;
+			_oImg.vSize.nHeight = _nHeight/_oImg.nHeight;
+			
+			Debug.fTrace("Width!: " + _nWidth);
+			Debug.fTrace("_nHeight!: " + _nHeight);
+			
+		}
+		
+		
+		
+		
+		
 
 	}
 }

@@ -2,6 +2,7 @@ package  {
 
 
 	import Demo.Browser.BrowserClip;
+	import GZ.Base.Pod.Size;
 
 	<cpp_h>
 		#include <iostream>
@@ -26,6 +27,8 @@ package  {
 		virtual void				draw_list_marker(litehtml::uint_ptr hdc, const litehtml::list_marker& marker);
 		virtual void				load_image(const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, bool redraw_on_ready);
 		virtual void				get_image_size(const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, litehtml::size& sz);
+		//virtual void				draw_image(uint_ptr hdc, const wchar_t* src, const wchar_t* baseurl, const litehtml::position& pos);
+				
 		virtual void				draw_background(litehtml::uint_ptr hdc, const litehtml::background_paint& bg);
 		virtual void				draw_borders(litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root);
 
@@ -65,6 +68,8 @@ package  {
 			return 	oClip->fNewFont(gzStrC((char*)faceName), size);
 		}
 
+
+		
 		void	cBrowserContainer::delete_font(litehtml::uint_ptr hFont){
 			printf("\n**Lite_HTML_Func: delete_font");
 		}
@@ -116,17 +121,73 @@ package  {
 		}
 
 		void	cBrowserContainer::load_image(const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, bool redraw_on_ready){
-			printf("\n**Lite_HTML_Func: load_image");
+			printf("\n**Lite_HTML_Func: load_image, src: %s , baseurl: %s, redraw_on_ready%d ", src, baseurl, redraw_on_ready );
+			oClip->fPreLoadImg( gzStrC((char*)src) );
+			
 		}
 
+		
+		//	struct size:
+		//int		width;
+		//int		height;
 		void	cBrowserContainer::get_image_size(const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, litehtml::size& sz){
 			printf("\n**Lite_HTML_Func: get_image_size");
-		}
+			//sz.width = 50;
+			//sz.height = 50;
+			//oClip->fGetImgSize(gzStrC((char*)src), gzVecSized<gzInt>{(int*)&sz, 2});
+			oClip->fGetImgSize(gzStrC((char*)src), GZ_VecUpCast(Lib_GZ::Base::Pod::gzVecSize<gzInt>, sz));
+			//oClip->fGetImgSize(gzStrC((char*)src), (Lib_GZ::Base::Pod::gzVecSize<gzInt>&) sz);
 
+			//printf("\n sz.width: %d", sz.width);
+			//printf("\n  sz.height: %d", sz.height);
+		}
+		
+				/*
+		void cBrowserContainer::draw_image( uint_ptr hdc, const tchar_t* src, const tchar_t* baseurl, const litehtml::position& pos ){
+			printf("\n**draw_image  %s ", src);
+	
+			apply_clip((HDC) hdc);
+
+			std::wstring url;
+			make_url(src, baseurl, url);
+			images_map::iterator img = m_images.find(url.c_str());
+			if(img != m_images.end())
+			{
+				draw_img((HDC) hdc, img->second, pos);
+			}
+
+			release_clip((HDC) hdc);
+		}
+		*/
+
+		
+/*
+class background_paint
+{
+public:
+tstring					image;
+tstring					baseurl;
+background_attachment	attachment;
+background_repeat		repeat;
+web_color				color;
+position				clip_box;
+position				origin_box;
+position				border_box;
+border_radiuses			border_radius;
+size					image_size;
+int						position_x;
+int						position_y;
+bool					is_root;
+*/
+		
 		void	cBrowserContainer::draw_background(litehtml::uint_ptr hdc, const litehtml::background_paint& bg){
-			printf("\n**Lite_HTML_Func: draw_background");
+			printf("\n**Lite_HTML_Func: draw_background %s  x:%d, y:%d",  bg.image.c_str(), bg.position_x, bg.position_y);
+			oClip->fDrawImg(gzStrC(bg.image.c_str()), bg.position_x, bg.position_y, bg.image_size.width, bg.image_size.height);
 		}
 
+		
+
+		
 		void	cBrowserContainer::draw_borders(litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root){
 			
 			int bdr_top		= 0;
